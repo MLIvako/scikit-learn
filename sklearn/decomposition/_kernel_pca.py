@@ -491,6 +491,10 @@ class KernelPCA(ClassNamePrefixFeaturesOutMixin, TransformerMixin, BaseEstimator
             Returns the instance itself.
         """
         check_is_fitted(self)
+        #for backward compatibility when fitted in previous version where self.gamma_ did not exists. set self.gamma_ to self.gamma 
+        if not hasattr(self, "gamma_"):
+            self.gamma_ = self.gamma
+        
         X = self._validate_data(X, accept_sparse="csr", reset=False)
 
         # Compute centered gram matrix between X and training data X_fit_
